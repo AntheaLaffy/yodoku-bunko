@@ -11,32 +11,32 @@ site/         樣板與前端（會被原樣複製到 dist）
   index.html  書架：只放封面
   book.html   書目：簡介 / 目錄 / 續讀 / EPUB
   read.html   閱讀器
-tools/build_fonts.py  按站點用字子集化霞鹜文楷
-tools/build_epub.py   章節 → EPUB 3（含自繪封面、內嵌字體）
-tools/build.sh        一條命令：站點 → 字體 → EPUB
-licenses/     霞鹜文楷 OFL 1.1 授權
+tools/build_epub.py   章節 → EPUB 3（含自繪封面）
+tools/build.sh        一條命令：站點 → EPUB
 build.mjs     把 content + config 編譯成 dist/data/**
 dist/         建置產物，就是網站本身（不進版控）
 ```
 
 ## 字體
 
-正文與標題使用[霞鹜文楷（LXGW WenKai）](https://github.com/lxgw/LxgwWenKai)。
-整包 15MB＋，所以建置時按站點實際用字子集化成 WOFF2：
+不隨包分發字庫，直接用系統宋體：
 
-```bash
-python3 tools/build_fonts.py                        # 只寫進 dist/
-python3 tools/build_fonts.py --out site/assets/fonts  # 順便更新要提交的版本
+```css
+--song: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC",
+        "Noto Serif SC", STSong, SimSun, serif;
+--kai:  "Kaiti SC", "KaiTi", STKaiti, "LXGW WenKai", serif;
 ```
 
-正文 Regular ≈ 530 KB（含全部正文用字，生僻字不缺），標題 Medium ≈ 68 KB。
-字重兩個檔位（100–400 / 500–900），所以不會出現瀏覽器合成假粗。
-字體以 SIL OFL 1.1 分發，授權見 `licenses/`，頁尾有署名。
+理由：書只會越積越多，按語料子集化的收益越來越小，還得每加一本就重建字體；
+而各平台基本都自帶宋體。首屏零字體下載。閱讀器可在宋 / 楷 / 黑之間切換，
+切到楷時若系統裝了霞鹜文楷（或系統楷體）就會用上。
+
+EPUB 同樣不內嵌字體，用閱讀器自己的中文襯線字。
 
 ## 建置
 
 ```bash
-bash tools/build.sh          # 站點 + 字體子集 + EPUB
+bash tools/build.sh          # 站點 + EPUB
 python3 -m http.server -d dist 8899
 # http://localhost:8899
 ```
@@ -49,7 +49,7 @@ python3 -m http.server -d dist 8899
 
 - 章節直接取用網站自己的 `ch-*.json`，網頁和書永遠同一份正文
 - 封面由 `build_epub.py` 用 Pillow + 文楷即時繪製（豎排書名、月環、朱印）
-- 內嵌子集字體，離線也保持同一套排版
+- 不內嵌字體，體積小（這本 237 KB）
 - 已通過 EPUBCheck 5.2.1（EPUB 3.3 規則，0 error 0 warning）
 
 EPUB 建好後會把 `epub` / `epubSize` 寫回 `data/books.json`，前端據此顯示下載入口。

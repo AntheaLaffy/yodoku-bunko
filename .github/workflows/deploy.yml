@@ -23,7 +23,9 @@ jobs:
         with:
           node-version: 20
       - name: 依赖
-        run: python3 -m pip install --quiet --disable-pip-version-check fonttools brotli pillow
+        run: |
+          python3 -m pip install --quiet --disable-pip-version-check pillow
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk || true
       - name: 建置（站點 + 字體子集 + EPUB）
         run: bash tools/build.sh
       - uses: actions/configure-pages@v5

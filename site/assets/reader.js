@@ -25,17 +25,18 @@ const state = {
    prefs
    ============================================================ */
 
-const defaults = { fs: 1.1, lh: 2.05, ff: 'kai', theme: 'night' };
+const defaults = { fs: 1.06, lh: 2.05, ff: 'song', theme: 'night' };
 let prefs = { ...defaults, ...load(KEY_PREFS, {}) };
-if (prefs.ff === 'serif') prefs.ff = 'kai';
+if (prefs.ff === 'serif') prefs.ff = 'song';
 if (prefs.ff === 'sans') prefs.ff = 'hei';
+if (prefs.ff === 'kai' && !localStorage.getItem('yodoku.kai')) prefs.ff = 'song';
 
 function applyPrefs() {
   const root = document.documentElement;
   root.dataset.theme = prefs.theme;
   root.style.setProperty('--fs', `${prefs.fs}rem`);
   root.style.setProperty('--lh', prefs.lh);
-  $('#fsVal').textContent = `${Math.round((prefs.fs / 1.1) * 100)}%`;
+  $('#fsVal').textContent = `${Math.round((prefs.fs / 1.06) * 100)}%`;
   $('#chBody')?.setAttribute('data-font', prefs.ff);
   $$('#lhSeg button').forEach((b) => b.classList.toggle('on', +b.dataset.lh === +prefs.lh));
   $$('#ffSeg button').forEach((b) => b.classList.toggle('on', b.dataset.ff === prefs.ff));
@@ -131,7 +132,6 @@ async function render() {
       ${book.title}${book.subtitle ? `　${book.subtitle}` : ''}<br />
       ${book.author ? `${book.author} 著　` : ''}非官方中譯<br />
       ${book.epub ? `<a class="foot-link" href="${book.epub}" download>下載 EPUB${book.epubSize ? `（${(book.epubSize / 1024).toFixed(0)} KB）` : ''}</a> · ` : ''}
-      <a class="foot-link" href="assets/fonts/OFL.txt" target="_blank" rel="noopener">字體 · 霞鹜文楷 LXGW WenKai（OFL 1.1）</a>
     </div>
   `;
   void page.offsetWidth;

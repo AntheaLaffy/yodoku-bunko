@@ -2,22 +2,8 @@
    夜読文庫 — core styles
    ============================================================ */
 
-/* 霞鹜文楷 — 子集化，见 tools/build_fonts.py · SIL OFL 1.1 */
-@font-face {
-  font-family: "LXGW WenKai Web";
-  src: url("fonts/lxgw-regular.woff2") format("woff2");
-  font-weight: 100 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "LXGW WenKai Web";
-  src: url("fonts/lxgw-medium.woff2") format("woff2");
-  font-weight: 500 900;
-  font-style: normal;
-  font-display: swap;
-}
+/* 字体：不内嵌字库，直接吃系统宋体（各大平台都有）。
+   同目录下不再随包分发 woff2，首屏零字体下载。 */
 
 :root {
   --bg: #0a0908;
@@ -35,9 +21,10 @@
   --wine-soft: rgba(168, 70, 79, 0.5);
   --wine-wash: rgba(168, 70, 79, 0.12);
   --radius: 14px;
-  --kai: "LXGW WenKai Web", "Kaiti SC", "KaiTi", STKaiti, "LXGW WenKai", serif;
-  --song: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", STSong, SimSun, serif;
-  --serif: var(--kai);
+  --song: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", "Noto Serif SC",
+    STSong, SimSun, "Yu Mincho", Georgia, serif;
+  --kai: "Kaiti SC", "KaiTi", STKaiti, "LXGW WenKai", "Kaiti TC", serif;
+  --serif: var(--song);
   --sans: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --mono: "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;

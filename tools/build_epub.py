@@ -47,10 +47,15 @@ def xhtml_para(fragment: str) -> str:
 
 
 def find_font() -> Path | None:
+    """封面绘制用的中文字体：找得到就行，找不到就退化成纯图形封面。"""
     for candidate in (
+        Path.home() / ".local/share/fonts/NotoSerifSC-VF.ttf",
+        Path("/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"),
+        Path("/usr/share/fonts/opentype/noto/NotoSerifCJKsc-Regular.otf"),
+        Path("/usr/share/fonts/truetype/noto/NotoSerifCJK-Regular.ttc"),
+        Path("/usr/share/fonts/opentype/source-han-serif/SourceHanSerifCN-Regular.otf"),
         Path.home() / ".local/share/fonts/LXGWWenKai-Regular.ttf",
         Path("/usr/share/fonts/truetype/lxgw-wenkai/LXGWWenKai-Regular.ttf"),
-        ROOT / ".cache/fonts/LXGWWenKai-Regular.ttf",
     ):
         if candidate.is_file():
             return candidate
@@ -246,7 +251,7 @@ def build_epub(book_dir: Path, out: Path, css: str, font_files: list[Path]) -> d
   <p>原著：{html.escape(meta.get("author", ""))}{("／" + html.escape(meta["publisher"])) if meta.get("publisher") else ""}</p>
   <p>譯文：非官方中文譯本</p>
   <p>本篇僅供私人閱讀，請支持正版。</p>
-  <p>排版：霞鹜文楷 LXGW WenKai（SIL OFL 1.1）· 夜読文庫 · {year}</p>
+  <p>排版：夜読文庫 · {year}</p>
 </section>""",
         ).encode()))
 
@@ -325,15 +330,10 @@ def build_epub(book_dir: Path, out: Path, css: str, font_files: list[Path]) -> d
 
 
 EPUB_CSS = """
-@font-face {
-  font-family: "LXGW WenKai";
-  src: url("fonts/lxgw-regular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
 html { font-size: 100%; }
 body {
-  font-family: "LXGW WenKai", "Songti SC", "Noto Serif CJK SC", serif;
+  font-family: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", "Noto Serif SC",
+    STSong, SimSun, serif;
   line-height: 2.0;
   margin: 0 1.2em;
   color: #1b1917;
