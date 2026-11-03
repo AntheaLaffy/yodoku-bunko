@@ -82,6 +82,7 @@ function card(book, i, progress) {
     <div class="cover" style="--from:${c.from};--to:${c.to};--accent-soft:${hexToRgba(c.accent, 0.16)};--accent-line:${hexToRgba(c.accent, 0.45)}">
       <span class="cover__frame"></span>
       <span class="cover__motif">${motif(c.motif, c.accent)}</span>
+      <span class="cover__veil"></span>
       <span class="cover__mark">YODOKU</span>
       <span class="cover__title">${book.title}</span>
       <span class="cover__sub">${book.subtitle || ''}</span>
@@ -92,6 +93,44 @@ function card(book, i, progress) {
       <p class="book__sub">${book.subtitle || book.synopsis || ''}</p>
       <div class="book__tags">${(book.tags || []).map((t) => `<span class="tag">${t}</span>`).join('')}</div>
       <div class="book__foot"><span>${footLeft}</span>${footRight}</div>
+      <div class="pbar"><i style="transform:scaleX(${pct})"></i></div>
+    </div>`;
+  return a;
+}
+
+/* ---------- featured card (single / few books) ---------- */
+
+function featureCard(book, progress) {
+  const c = book.cover;
+  const p = progress[book.slug];
+  const a = document.createElement('a');
+  a.className = 'book feature';
+  a.href = `read.html?b=${encodeURIComponent(book.slug)}${p ? `&ch=${p.ch}` : ''}`;
+  a.dataset.search = [book.title, book.subtitle, book.author, ...(book.tags || [])].join(' ').toLowerCase();
+
+  const cta = p ? `繼續閱讀 · 第 ${p.ch + 1} 話` : '開始閱讀';
+  const pct = p ? Math.min(1, (p.max + 1) / book.stats.chapters) : 0;
+
+  a.innerHTML = `
+    <div class="cover" style="--from:${c.from};--to:${c.to};--accent-soft:${hexToRgba(c.accent, 0.16)};--accent-line:${hexToRgba(c.accent, 0.45)}">
+      <span class="cover__frame"></span>
+      <span class="cover__motif">${motif(c.motif, c.accent)}</span>
+      <span class="cover__veil"></span>
+      <span class="cover__mark">YODOKU</span>
+      <span class="cover__title">${book.title}</span>
+      <span class="cover__sub">${book.subtitle || ''}</span>
+      <span class="cover__author">${book.author || ''}</span>
+    </div>
+    <div class="feature__body">
+      <div class="kicker">${book.publisher || '單行本'} · ${book.stats.chapters} 話</div>
+      <h2>${book.title}</h2>
+      <p class="feature__sub">${book.subtitle || ''}</p>
+      <p class="feature__syn">${book.synopsis || ''}</p>
+      <div class="book__tags">${(book.tags || []).map((t) => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="feature__actions">
+        <span class="btn btn--gold">${cta}</span>
+        <span class="feature__meta">${(book.stats.words / 10000).toFixed(1)} 萬字 · 約 ${book.stats.minutes} 分鐘</span>
+      </div>
       <div class="pbar"><i style="transform:scaleX(${pct})"></i></div>
     </div>`;
   return a;
@@ -120,7 +159,12 @@ async function boot() {
   const progress = load(KEY_PROGRESS, {});
   const shelf = $('#shelf');
   shelf.innerHTML = '';
-  books.forEach((b, i) => shelf.append(card(b, i, progress)));
+  if (books.length === 1) {
+    shelf.classList.add('solo');
+    shelf.append(featureCard(books[0], progress));
+  } else {
+    books.forEach((b, i) => shelf.append(card(b, i, progress)));
+  }
 
   // tags
   const tagSet = [...new Set(books.flatMap((b) => b.tags || []))];

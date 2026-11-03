@@ -232,16 +232,17 @@ html[data-theme="white"] .grain { opacity: 0.05; mix-blend-mode: multiply; }
 }
 
 .body {
-  font-family: var(--serif);
-  font-size: var(--fs, 1.08rem);
+  font-family: var(--kai);
+  font-size: var(--fs, 1.1rem);
   line-height: var(--lh, 2.05);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   text-align: justify;
   text-justify: inter-ideograph;
   word-break: break-word;
 }
 
-.body[data-font="sans"] { font-family: var(--sans); }
+.body[data-font="song"] { font-family: var(--song); letter-spacing: 0.01em; }
+.body[data-font="hei"] { font-family: var(--sans); letter-spacing: 0.02em; }
 
 .body p {
   margin: 0 0 1.05em;
@@ -555,6 +556,11 @@ html[data-theme="white"] .grain { opacity: 0.05; mix-blend-mode: multiply; }
   line-height: 1.7;
 }
 
+.sheet__hint .arrows {
+  font-family: var(--sans);
+  letter-spacing: 0.1em;
+}
+
 .sheet__hint kbd {
   font-family: var(--mono);
   border: 1px solid var(--line);
@@ -573,6 +579,14 @@ html[data-theme="white"] .grain { opacity: 0.05; mix-blend-mode: multiply; }
   margin-top: 3.5rem;
   line-height: 2;
 }
+
+.foot-link {
+  color: var(--ink-faint);
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.foot-link:hover { color: var(--gold); border-color: var(--gold-dim); }
 
 .loading {
   text-align: center;

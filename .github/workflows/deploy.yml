@@ -24,6 +24,11 @@ jobs:
           node-version: 20
       - name: Build
         run: node build.mjs
+      - name: Subset 霞鹜文楷
+        continue-on-error: true
+        run: |
+          python3 -m pip install --quiet --disable-pip-version-check fonttools brotli
+          python3 tools/build_fonts.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

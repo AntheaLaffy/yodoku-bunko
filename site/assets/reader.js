@@ -25,15 +25,17 @@ const state = {
    prefs
    ============================================================ */
 
-const defaults = { fs: 1.08, lh: 2.05, ff: 'serif', theme: 'night' };
+const defaults = { fs: 1.1, lh: 2.05, ff: 'kai', theme: 'night' };
 let prefs = { ...defaults, ...load(KEY_PREFS, {}) };
+if (prefs.ff === 'serif') prefs.ff = 'kai';
+if (prefs.ff === 'sans') prefs.ff = 'hei';
 
 function applyPrefs() {
   const root = document.documentElement;
   root.dataset.theme = prefs.theme;
   root.style.setProperty('--fs', `${prefs.fs}rem`);
   root.style.setProperty('--lh', prefs.lh);
-  $('#fsVal').textContent = `${Math.round((prefs.fs / 1.08) * 100)}%`;
+  $('#fsVal').textContent = `${Math.round((prefs.fs / 1.1) * 100)}%`;
   $('#chBody')?.setAttribute('data-font', prefs.ff);
   $$('#lhSeg button').forEach((b) => b.classList.toggle('on', +b.dataset.lh === +prefs.lh));
   $$('#ffSeg button').forEach((b) => b.classList.toggle('on', b.dataset.ff === prefs.ff));
@@ -125,7 +127,9 @@ async function render() {
       </button>
       <a class="cnav__btn ${next ? '' : 'disabled'}" href="#" data-go="${state.ch + 1}">${next ? next.title + ' →' : '已至終章'}</a>
     </nav>
-    <div class="footnote">${book.title}<br />${book.sourceTitle || ''}</div>
+    <div class="footnote">${book.title}<br />${book.sourceTitle || ''}<br />
+      <a class="foot-link" href="assets/fonts/OFL.txt" target="_blank" rel="noopener">字體 · 霞鶩文楷 LXGW WenKai（OFL 1.1）</a>
+    </div>
   `;
   void page.offsetWidth;
   page.style.animation = '';

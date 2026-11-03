@@ -8,9 +8,25 @@
 content/      原文 markdown（一本書一個 .md，`## ` 分章）
 books.config.json  書目設定：書名、作者、標籤、簡介、封面配色
 site/         樣板與前端（會被原樣複製到 dist）
+tools/build_fonts.py  按站點用字子集化霞鹜文楷
+licenses/     霞鹜文楷 OFL 1.1 授權
 build.mjs     把 content + config 編譯成 dist/data/**
 dist/         建置產物，就是網站本身（不進版控）
 ```
+
+## 字體
+
+正文與標題使用[霞鹜文楷（LXGW WenKai）](https://github.com/lxgw/LxgwWenKai)。
+整包 15MB＋，所以建置時按站點實際用字子集化成 WOFF2：
+
+```bash
+python3 tools/build_fonts.py                        # 只寫進 dist/
+python3 tools/build_fonts.py --out site/assets/fonts  # 順便更新要提交的版本
+```
+
+正文 Regular ≈ 530 KB（含全部正文用字，生僻字不缺），標題 Medium ≈ 68 KB。
+字重兩個檔位（100–400 / 500–900），所以不會出現瀏覽器合成假粗。
+字體以 SIL OFL 1.1 分發，授權見 `licenses/`，頁尾有署名。
 
 ## 本地預覽
 
