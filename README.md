@@ -78,4 +78,4 @@ EPUB 建好後會把 `epub` / `epubSize` 寫回 `data/books.json`，前端據此
 - 目錄側欄、上一話／下一話、鍵盤 `←` `→` `M` `T` `Esc`
 - 字號、行距、宋黑字體、四種主題（夜／月／紙／白）
 - 閱讀進度、當前章節自動記憶（localStorage）
-- 藏書人：如月風鈴（[頭像](site/assets/img/avatar.webp) · 朱印 · 版權頁）
+- 藏書人署名：如月風鈴 · 朱印 · 版權頁（不放頭像）

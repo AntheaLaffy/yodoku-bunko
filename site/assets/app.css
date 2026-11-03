@@ -176,45 +176,21 @@ button {
   margin-top: 0.45rem;
 }
 
-.owner__face { position: relative; flex: none; }
-
-.owner__face::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  box-shadow: inset 0 0 22px rgba(10, 8, 8, 0.55);
-  pointer-events: none;
-}
-
-.owner__face img {
-  display: block;
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid rgba(212, 162, 76, 0.34);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.02), 0 10px 26px -12px rgba(0, 0, 0, 0.9);
-}
-
 .owner__stamp {
-  position: absolute;
-  right: -9px;
-  bottom: -7px;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   font-family: var(--serif);
-  font-size: 17px;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-  color: #f8efe4;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #f7ede2;
   background: var(--wine);
-  border-radius: 3px;
-  transform: rotate(-7deg);
-  box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.9);
-  opacity: 0.94;
+  border-radius: 4px;
+  transform: rotate(-5deg);
+  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  opacity: 0.95;
 }
 
 /* 藏書銘 */
@@ -876,7 +852,7 @@ button {
 @media (max-width: 720px) {
   .wrap { width: min(1180px, 100% - 2rem); }
   .site-head { padding-top: 3rem; }
-  .owner__face img { width: 60px; height: 60px; }
+  .owner__stamp { width: 34px; height: 34px; font-size: 17px; }
   .owner__name { font-size: 0.92rem; }
   .colophon { grid-template-columns: 1fr; gap: 2.2rem; }
   .colophon__sign { flex-direction: row; align-items: center; gap: 1.4rem; }
