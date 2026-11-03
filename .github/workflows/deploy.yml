@@ -22,13 +22,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Build
-        run: node build.mjs
-      - name: Subset 霞鹜文楷
-        continue-on-error: true
-        run: |
-          python3 -m pip install --quiet --disable-pip-version-check fonttools brotli
-          python3 tools/build_fonts.py
+      - name: 依赖
+        run: python3 -m pip install --quiet --disable-pip-version-check fonttools brotli pillow
+      - name: 建置（站點 + 字體子集 + EPUB）
+        run: bash tools/build.sh
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

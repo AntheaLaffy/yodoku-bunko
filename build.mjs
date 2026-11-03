@@ -138,7 +138,11 @@ async function main() {
     console.log(`✓ ${book.slug} — ${meta.stats.chapters} 章 / ${meta.stats.words} 字`);
   }
 
-  const manifest = { site: config.site, books: metas };
+  const manifest = {
+    site: config.site,
+    generatedAt: new Date().toISOString(),
+    books: metas
+  };
   await writeFile(path.join(DIST, 'data', 'books.json'), JSON.stringify(manifest, null, 2));
   console.log(`✓ dist/ ready — ${metas.length} book(s)`);
 }

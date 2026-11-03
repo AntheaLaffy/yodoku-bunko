@@ -127,8 +127,11 @@ async function render() {
       </button>
       <a class="cnav__btn ${next ? '' : 'disabled'}" href="#" data-go="${state.ch + 1}">${next ? next.title + ' →' : '已至終章'}</a>
     </nav>
-    <div class="footnote">${book.title}<br />${book.sourceTitle || ''}<br />
-      <a class="foot-link" href="assets/fonts/OFL.txt" target="_blank" rel="noopener">字體 · 霞鶩文楷 LXGW WenKai（OFL 1.1）</a>
+    <div class="footnote">
+      ${book.title}${book.subtitle ? `　${book.subtitle}` : ''}<br />
+      ${book.author ? `${book.author} 著　` : ''}如月風鈴 譯<br />
+      ${book.epub ? `<a class="foot-link" href="${book.epub}" download>下載 EPUB${book.epubSize ? `（${(book.epubSize / 1024).toFixed(0)} KB）` : ''}</a> · ` : ''}
+      <a class="foot-link" href="assets/fonts/OFL.txt" target="_blank" rel="noopener">字體 · 霞鹜文楷 LXGW WenKai（OFL 1.1）</a>
     </div>
   `;
   void page.offsetWidth;

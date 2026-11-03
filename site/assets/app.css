@@ -31,6 +31,9 @@
   --gold: #d4a24c;
   --gold-dim: rgba(212, 162, 76, 0.55);
   --gold-wash: rgba(212, 162, 76, 0.1);
+  --wine: #a8464f;
+  --wine-soft: rgba(168, 70, 79, 0.5);
+  --wine-wash: rgba(168, 70, 79, 0.12);
   --radius: 14px;
   --kai: "LXGW WenKai Web", "Kaiti SC", "KaiTi", STKaiti, "LXGW WenKai", serif;
   --song: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", STSong, SimSun, serif;
@@ -109,6 +112,7 @@ button {
 
 .rule {
   height: 1px;
+  margin-top: 2rem;
   background: linear-gradient(90deg, var(--line-strong), transparent);
 }
 
@@ -122,7 +126,7 @@ button {
 
 .brandline {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
@@ -135,7 +139,7 @@ button {
   letter-spacing: 0.18em;
   margin: 0.5rem 0 0;
   line-height: 1;
-  background: linear-gradient(160deg, #f5eddf 12%, #d9c49c 58%, #a98a52 100%);
+  background: linear-gradient(158deg, #faf4ee 6%, #efdbd2 38%, #ddb98a 68%, #b1803c 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -148,31 +152,119 @@ button {
   letter-spacing: 0.22em;
 }
 
-.brand-meta {
-  text-align: right;
+/* 藏書人 */
+.owner {
   display: flex;
-  gap: 2.4rem;
-  padding-bottom: 0.4rem;
+  align-items: center;
+  gap: 1.2rem;
+  padding-top: 0.4rem;
+}
+
+.owner__id { text-align: right; }
+
+.owner__name {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  letter-spacing: 0.2em;
+  color: var(--ink);
+}
+
+.owner__role {
+  font-size: 0.64rem;
+  letter-spacing: 0.28em;
+  color: var(--ink-faint);
+  margin-top: 0.45rem;
+}
+
+.owner__face { position: relative; flex: none; }
+
+.owner__face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 22px rgba(10, 8, 8, 0.55);
+  pointer-events: none;
+}
+
+.owner__face img {
+  display: block;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(212, 162, 76, 0.34);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.02), 0 10px 26px -12px rgba(0, 0, 0, 0.9);
+}
+
+.owner__stamp {
+  position: absolute;
+  right: -9px;
+  bottom: -7px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: #f8efe4;
+  background: var(--wine);
+  border-radius: 3px;
+  transform: rotate(-7deg);
+  box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.9);
+  opacity: 0.94;
+}
+
+/* 藏書銘 */
+.motto {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 2.6rem 0 0;
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-dim);
+}
+
+.motto__tick {
+  width: 28px;
+  height: 1px;
+  background: var(--wine);
+  opacity: 0.85;
+}
+
+.stats-row {
+  display: flex;
+  gap: clamp(1.6rem, 4vw, 3.4rem);
+  margin: 1.7rem 0 0;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
 }
 
 .stat-num {
   font-family: var(--serif);
-  font-size: 1.7rem;
+  font-size: 1.32rem;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .stat-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.24em;
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
   color: var(--ink-faint);
-  text-transform: uppercase;
-  margin-top: 0.35rem;
 }
 
 .toolbar {
-  margin: 3rem 0 1.6rem;
+  margin: 1.5rem 0 1.7rem;
   display: flex;
   align-items: center;
   gap: 1.2rem;
@@ -257,7 +349,7 @@ button {
   padding: 1.4rem 0 5rem;
 }
 
-.feature {
+.book.feature {
   display: grid;
   grid-template-columns: minmax(220px, 300px) 1fr;
   gap: clamp(2rem, 5vw, 4.5rem);
@@ -518,6 +610,107 @@ button {
   transform-origin: left;
 }
 
+/* ---------- epub / meta ---------- */
+
+.book__coverwrap { display: block; }
+
+.book__title { color: inherit; }
+
+.book:hover .book__title { color: #fff; }
+
+.book__epub {
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  color: var(--wine);
+  border: 1px solid rgba(168, 70, 79, 0.42);
+  border-radius: 3px;
+  padding: 0.12rem 0.42rem;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.book__epub:hover {
+  color: #f8efe4;
+  background: var(--wine);
+  border-color: var(--wine);
+}
+
+.byline {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  margin: 0 0 0.7rem;
+}
+
+.byline .tr { color: var(--gold-dim); }
+
+/* ---------- colophon ---------- */
+
+.colophon {
+  margin: 2rem 0 4.5rem;
+  padding-top: 2.8rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.colophon__sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.colophon__sig {
+  writing-mode: vertical-rl;
+  font-family: var(--serif);
+  font-size: 1.28rem;
+  letter-spacing: 0.34em;
+  color: var(--ink-dim);
+  line-height: 1.2;
+}
+
+.colophon__seal {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-size: 12px;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  color: #f8efe4;
+  background: var(--wine);
+  border-radius: 4px;
+  transform: rotate(4deg);
+  opacity: 0.92;
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.9);
+}
+
+.colophon__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 2rem 2.4rem;
+}
+
+.colophon__cell h4 {
+  margin: 0 0 0.65rem;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: var(--gold-dim);
+}
+
+.colophon__cell p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.95;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+
 /* ---------- footer ---------- */
 
 .site-foot {
@@ -646,6 +839,21 @@ button {
 
 .btn--gold:hover { color: #0a0a08; filter: brightness(1.08); }
 
+.btn--ghost {
+  border-color: var(--line-strong);
+  color: var(--ink-dim);
+  background: transparent;
+  font-size: 0.74rem;
+  padding: 0.55rem 1.2rem;
+  letter-spacing: 0.14em;
+}
+
+.btn--ghost:hover {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+  background: var(--gold-wash);
+}
+
 /* ---------- empty state ---------- */
 
 .empty {
@@ -668,7 +876,11 @@ button {
 @media (max-width: 720px) {
   .wrap { width: min(1180px, 100% - 2rem); }
   .site-head { padding-top: 3rem; }
-  .brand-meta { gap: 1.6rem; }
+  .owner__face img { width: 60px; height: 60px; }
+  .owner__name { font-size: 0.92rem; }
+  .colophon { grid-template-columns: 1fr; gap: 2.2rem; }
+  .colophon__sign { flex-direction: row; align-items: center; gap: 1.4rem; }
+  .colophon__sig { writing-mode: horizontal-tb; letter-spacing: 0.3em; }
   .shelf { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1.8rem 1.1rem; }
   .cover__title {
     writing-mode: horizontal-tb;

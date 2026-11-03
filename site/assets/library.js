@@ -18,6 +18,8 @@ const load = (k, d) => {
 const fmtWords = (n) =>
   n >= 10000 ? `${(n / 10000).toFixed(1)} 萬字` : `${n.toLocaleString()} 字`;
 
+const fmtSize = (b) => (b >= 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
+
 /* ---------- cover art ---------- */
 
 function motif(kind, accent) {
@@ -61,79 +63,81 @@ function motif(kind, accent) {
   </svg>`;
 }
 
-/* ---------- card ---------- */
+const coverHTML = (c, book) => `
+  <div class="cover" style="--from:${c.from};--to:${c.to};--accent-soft:${hexToRgba(c.accent, 0.16)};--accent-line:${hexToRgba(c.accent, 0.45)}">
+    <span class="cover__frame"></span>
+    <span class="cover__motif">${motif(c.motif, c.accent)}</span>
+    <span class="cover__veil"></span>
+    <span class="cover__mark">YODOKU</span>
+    <span class="cover__title">${book.title}</span>
+    <span class="cover__sub">${book.subtitle || ''}</span>
+    <span class="cover__author">${book.author || ''}</span>
+  </div>`;
+
+const href = (b, ch) => `read.html?b=${encodeURIComponent(b.slug)}${ch != null ? `&ch=${ch}` : ''}`;
+
+/* ---------- 网格卡（多书时） ---------- */
 
 function card(book, i, progress) {
-  const c = book.cover;
   const p = progress[book.slug];
-  const a = document.createElement('a');
-  a.className = 'book';
-  a.href = `read.html?b=${encodeURIComponent(book.slug)}`;
-  a.style.animationDelay = `${Math.min(i * 70, 500)}ms`;
-  a.dataset.search = [book.title, book.subtitle, book.author, ...(book.tags || [])].join(' ').toLowerCase();
+  const el = document.createElement('article');
+  el.className = 'book';
+  el.style.animationDelay = `${Math.min(i * 70, 500)}ms`;
+  el.dataset.search = [book.title, book.subtitle, book.author, ...(book.tags || [])].join(' ').toLowerCase();
 
   const pct = p ? Math.min(1, (p.max + 1) / book.stats.chapters) : 0;
-  const footLeft = `${book.stats.chapters} 話 · ${fmtWords(book.stats.words)}`;
-  const footRight = p
-    ? `<span class="resume">續讀 · 第 ${p.ch + 1} 話</span>`
-    : `<span>${book.stats.minutes} 分鐘</span>`;
 
-  a.innerHTML = `
-    <div class="cover" style="--from:${c.from};--to:${c.to};--accent-soft:${hexToRgba(c.accent, 0.16)};--accent-line:${hexToRgba(c.accent, 0.45)}">
-      <span class="cover__frame"></span>
-      <span class="cover__motif">${motif(c.motif, c.accent)}</span>
-      <span class="cover__veil"></span>
-      <span class="cover__mark">YODOKU</span>
-      <span class="cover__title">${book.title}</span>
-      <span class="cover__sub">${book.subtitle || ''}</span>
-      <span class="cover__author">${book.author || ''}</span>
-    </div>
+  el.innerHTML = `
+    <a class="book__coverwrap" href="${href(book, p ? p.ch : null)}" aria-label="${book.title}">
+      ${coverHTML(book.cover, book)}
+    </a>
     <div class="book__body">
-      <h3>${book.title}</h3>
-      <p class="book__sub">${book.subtitle || book.synopsis || ''}</p>
+      <h3><a class="book__title" href="${href(book, p ? p.ch : null)}">${book.title}</a></h3>
+      <p class="byline">${book.author ? `${book.author} 著` : ''}${book.author ? ' · ' : ''}<span class="tr">如月風鈴 譯</span></p>
       <div class="book__tags">${(book.tags || []).map((t) => `<span class="tag">${t}</span>`).join('')}</div>
-      <div class="book__foot"><span>${footLeft}</span>${footRight}</div>
+      <div class="book__foot">
+        ${p
+          ? `<span class="resume">續讀 · 第 ${p.ch + 1} 話</span>`
+          : `<span>${book.stats.chapters} 話 · ${fmtWords(book.stats.words)}</span>`}
+        ${book.epub
+          ? `<a class="book__epub" href="${book.epub}" download title="下載 EPUB">EPUB</a>`
+          : `<span>${book.stats.minutes} 分鐘</span>`}
+      </div>
       <div class="pbar"><i style="transform:scaleX(${pct})"></i></div>
     </div>`;
-  return a;
+  return el;
 }
 
-/* ---------- featured card (single / few books) ---------- */
+/* ---------- 主视觉卡（少书时） ---------- */
 
 function featureCard(book, progress) {
-  const c = book.cover;
   const p = progress[book.slug];
-  const a = document.createElement('a');
-  a.className = 'book feature';
-  a.href = `read.html?b=${encodeURIComponent(book.slug)}${p ? `&ch=${p.ch}` : ''}`;
-  a.dataset.search = [book.title, book.subtitle, book.author, ...(book.tags || [])].join(' ').toLowerCase();
+  const el = document.createElement('article');
+  el.className = 'book feature';
+  el.dataset.search = [book.title, book.subtitle, book.author, ...(book.tags || [])].join(' ').toLowerCase();
 
   const cta = p ? `繼續閱讀 · 第 ${p.ch + 1} 話` : '開始閱讀';
   const pct = p ? Math.min(1, (p.max + 1) / book.stats.chapters) : 0;
 
-  a.innerHTML = `
-    <div class="cover" style="--from:${c.from};--to:${c.to};--accent-soft:${hexToRgba(c.accent, 0.16)};--accent-line:${hexToRgba(c.accent, 0.45)}">
-      <span class="cover__frame"></span>
-      <span class="cover__motif">${motif(c.motif, c.accent)}</span>
-      <span class="cover__veil"></span>
-      <span class="cover__mark">YODOKU</span>
-      <span class="cover__title">${book.title}</span>
-      <span class="cover__sub">${book.subtitle || ''}</span>
-      <span class="cover__author">${book.author || ''}</span>
-    </div>
+  el.innerHTML = `
+    <a class="book__coverwrap" href="${href(book, p ? p.ch : null)}" aria-label="${book.title}">
+      ${coverHTML(book.cover, book)}
+    </a>
     <div class="feature__body">
       <div class="kicker">${book.publisher || '單行本'} · ${book.stats.chapters} 話</div>
-      <h2>${book.title}</h2>
+      <h2><a class="book__title" href="${href(book, p ? p.ch : null)}">${book.title}</a></h2>
       <p class="feature__sub">${book.subtitle || ''}</p>
+      <p class="byline">${book.author ? `${book.author} 著` : ''}${book.author ? ' · ' : ''}<span class="tr">如月風鈴 譯</span></p>
       <p class="feature__syn">${book.synopsis || ''}</p>
       <div class="book__tags">${(book.tags || []).map((t) => `<span class="tag">${t}</span>`).join('')}</div>
       <div class="feature__actions">
-        <span class="btn btn--gold">${cta}</span>
+        <a class="btn btn--gold" href="${href(book, p ? p.ch : null)}">${cta}</a>
+        ${book.epub ? `<a class="btn btn--ghost" href="${book.epub}" download>下載 EPUB${book.epubSize ? ` · ${fmtSize(book.epubSize)}` : ''}</a>` : ''}
         <span class="feature__meta">${(book.stats.words / 10000).toFixed(1)} 萬字 · 約 ${book.stats.minutes} 分鐘</span>
       </div>
       <div class="pbar"><i style="transform:scaleX(${pct})"></i></div>
     </div>`;
-  return a;
+  return el;
 }
 
 /* ---------- boot ---------- */
@@ -144,7 +148,7 @@ async function boot() {
   const site = data.site || {};
   const books = data.books || [];
 
-  document.title = site.title || '夜読文庫';
+  document.title = `${site.title || '夜読文庫'} · 如月風鈴`;
   $('#siteTitle').textContent = site.title || '夜読文庫';
   $('#siteEn').textContent = site.titleEn || '';
   $('#siteSub').textContent = site.subtitle || '';
@@ -155,10 +159,18 @@ async function boot() {
   $('#statBooks').textContent = books.length;
   $('#statChapters').textContent = totalCh;
   $('#statWords').textContent = totalWords >= 10000 ? (totalWords / 10000).toFixed(1) + '萬' : totalWords;
+  $('#cfBooks').textContent = `${books.length} 部作品 · ${totalCh} 章`;
+
+  const built = data.generatedAt || books.find((b) => b.builtAt)?.builtAt;
+  if (built) {
+    const d = new Date(built);
+    $('#cfBuilt').textContent = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}\n靜態生成`;
+  }
 
   const progress = load(KEY_PROGRESS, {});
   const shelf = $('#shelf');
   shelf.innerHTML = '';
+
   if (books.length === 1) {
     shelf.classList.add('solo');
     shelf.append(featureCard(books[0], progress));
@@ -205,7 +217,6 @@ async function boot() {
   };
   q.addEventListener('input', apply);
 }
-
 
 /* ---------- gate ---------- */
 
