@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>夜読文庫</title>
+<meta name="theme-color" content="#0a0908" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0908'/%3E%3Ctext x='16' y='23' font-size='19' font-family='serif' fill='%23d4a24c' text-anchor='middle'%3E読%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/app.css" />
+<link rel="stylesheet" href="assets/reader.css" />
+</head>
+<body>
+<div class="aura"></div>
+<div class="grain"></div>
+
+<header class="rhead" id="rhead">
+  <a class="rhead__back" href="index.html" title="返回書架">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  </a>
+  <div class="rhead__id">
+    <span class="rhead__book" id="hbTitle"></span>
+    <span class="rhead__ch" id="hbCh"></span>
+  </div>
+  <div class="rhead__tools">
+    <button class="tool" id="btnToc" title="目錄 (M)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+        <path d="M4 6h16M4 12h16M4 18h10" />
+      </svg>
+      <span>目錄</span>
+    </button>
+    <button class="tool" id="btnFont" title="排版">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19 12 5l8 14M7.5 14h9" />
+      </svg>
+      <span>排版</span>
+    </button>
+  </div>
+  <div class="rhead__bar"><i id="progress"></i></div>
+</header>
+
+<main class="reader">
+  <article class="page" id="page">
+    <div class="loading">LOADING</div>
+  </article>
+</main>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__head">
+    <div class="book-t" id="dTitle"></div>
+    <div class="book-s" id="dSub"></div>
+  </div>
+  <nav class="drawer__list" id="dList"></nav>
+</aside>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="sheet" id="sheet" aria-hidden="true">
+  <div class="sheet__row">
+    <span class="sheet__label">字號</span>
+    <div class="stepper">
+      <button id="fsDown" aria-label="縮小">A−</button>
+      <span id="fsVal">108%</span>
+      <button id="fsUp" aria-label="放大">A+</button>
+    </div>
+  </div>
+  <div class="sheet__row">
+    <span class="sheet__label">行距</span>
+    <div class="seg" id="lhSeg">
+      <button data-lh="1.85">緊</button>
+      <button data-lh="2.05">適</button>
+      <button data-lh="2.35">鬆</button>
+    </div>
+  </div>
+  <div class="sheet__row">
+    <span class="sheet__label">字體</span>
+    <div class="seg" id="ffSeg">
+      <button data-ff="serif">宋</button>
+      <button data-ff="sans">黑</button>
+    </div>
+  </div>
+  <div class="sheet__row">
+    <span class="sheet__label">主題</span>
+    <div class="swatches" id="sw">
+      <button class="sw" data-t="night" title="夜"></button>
+      <button class="sw" data-t="moon" title="月"></button>
+      <button class="sw" data-t="paper" title="紙"></button>
+      <button class="sw" data-t="white" title="白"></button>
+    </div>
+  </div>
+  <p class="sheet__hint">方向鍵切換章節 · <kbd>M</kbd> 目錄 · <kbd>T</kbd> 主題 · <kbd>Esc</kbd> 關閉</p>
+</div>
+
+<script type="module" src="assets/reader.js"></script>
+</body>
+</html>

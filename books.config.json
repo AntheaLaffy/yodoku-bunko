@@ -1,0 +1,27 @@
+{
+  "site": {
+    "title": "夜読文庫",
+    "titleEn": "YODOKU BUNKO",
+    "subtitle": "私人藏書 · 非官方中文譯本",
+    "base": "",
+    "footer": "本站內容僅供私人閱讀，請於閱讀後二十四小時內忘卻。"
+  },
+  "books": [
+    {
+      "slug": "ntr-haruna",
+      "file": "ntr-haruna.md",
+      "title": "我决定夺走被挚友抛在身后的她。",
+      "subtitle": "与一直心属的那孩子进行 NTR 播种之爱",
+      "author": "abel",
+      "publisher": "フランス書院",
+      "tags": ["NTR", "背德", "青春", "夏日"],
+      "synopsis": "草薙秋斗祝福了挚友与星崎瑠那的恋情，把自己那份心意封存起来。可浩辉却渐渐把瑠那一个人留在原地。被冷落的女孩开始向秋斗寻求倾听——而那扇门一旦推开，就再也关不上了。",
+      "cover": {
+        "from": "#3a1d24",
+        "to": "#0b0908",
+        "accent": "#d4726a",
+        "motif": "moon"
+      }
+    }
+  ]
+}

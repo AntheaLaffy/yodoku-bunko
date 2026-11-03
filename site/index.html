@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="night">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>夜読文庫</title>
+<meta name="description" content="私人藏書 · 非官方中文譯本" />
+<meta name="theme-color" content="#0a0908" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0908'/%3E%3Ctext x='16' y='23' font-size='19' font-family='serif' fill='%23d4a24c' text-anchor='middle'%3E読%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/app.css" />
+</head>
+<body>
+<div class="aura"></div>
+<div class="grain"></div>
+
+<header class="site-head wrap">
+  <div class="brandline">
+    <div class="brand">
+      <div class="kicker" id="siteEn">YODOKU BUNKO</div>
+      <h1 id="siteTitle">夜読文庫</h1>
+      <p class="tagline" id="siteSub">私人藏書 · 非官方中文譯本</p>
+    </div>
+    <div class="brand-meta" id="stats">
+      <div>
+        <div class="stat-num" id="statBooks">—</div>
+        <div class="stat-label">作品</div>
+      </div>
+      <div>
+        <div class="stat-num" id="statChapters">—</div>
+        <div class="stat-label">章節</div>
+      </div>
+      <div>
+        <div class="stat-num" id="statWords">—</div>
+        <div class="stat-label">字數</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule" style="margin-top: 2.6rem"></div>
+
+  <div class="toolbar">
+    <label class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+      </svg>
+      <input id="q" type="search" placeholder="搜尋書名、標籤…" autocomplete="off" spellcheck="false" />
+    </label>
+    <div class="chiprow" id="tags"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="shelf" id="shelf">
+    <div class="loading" style="grid-column: 1/-1">LOADING</div>
+  </div>
+</main>
+
+<footer class="site-foot wrap">
+  <span id="footNote">本站內容僅供私人閱讀。</span>
+  <span class="seal">墨 · 燈 · 卷</span>
+</footer>
+
+<!-- 18+ gate -->
+<div class="gate" id="gate" hidden>
+  <div class="gate__card">
+    <div class="gate__age">18+</div>
+    <h2>成人內容</h2>
+    <p>本藏書含成人向文學作品，僅限年滿十八歲之讀者閱覽。<br />點擊「進入」即表示你已達到法定年齡，並自願閱讀。</p>
+    <div class="gate__actions">
+      <button class="btn" id="gateNo">離開</button>
+      <button class="btn btn--gold" id="gateYes">進入</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="assets/library.js"></script>
+</body>
+</html>
