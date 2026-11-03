@@ -221,7 +221,7 @@ def build_epub(book_dir: Path, out: Path, css: str, font_files: list[Path]) -> d
   <h1>{html.escape(meta["title"])}</h1>
   <p class="t-sub">{html.escape(meta.get("subtitle", ""))}</p>
   <p class="t-author">{html.escape(meta.get("author", ""))} 著</p>
-  <p class="t-role">如月風鈴 譯</p>
+  <p class="t-role">非官方中文譯本</p>
   <p class="t-imprint">夜読文庫</p>
 </section>""",
         ).encode()))
@@ -244,7 +244,7 @@ def build_epub(book_dir: Path, out: Path, css: str, font_files: list[Path]) -> d
   <h2>版權</h2>
   <p>《{html.escape(meta["title"])}》{html.escape(meta.get("subtitle", ""))}</p>
   <p>原著：{html.escape(meta.get("author", ""))}{("／" + html.escape(meta["publisher"])) if meta.get("publisher") else ""}</p>
-  <p>譯文：如月風鈴（非官方中文譯本）</p>
+  <p>譯文：非官方中文譯本</p>
   <p>本篇僅供私人閱讀，請支持正版。</p>
   <p>排版：霞鹜文楷 LXGW WenKai（SIL OFL 1.1）· 夜読文庫 · {year}</p>
 </section>""",
@@ -287,7 +287,7 @@ def build_epub(book_dir: Path, out: Path, css: str, font_files: list[Path]) -> d
     <dc:title>{html.escape(meta["title"])}{("　" + html.escape(meta["subtitle"])) if meta.get("subtitle") else ""}</dc:title>
     <dc:creator id="author">{html.escape(meta.get("author", ""))}</dc:creator>
     <meta refines="#author" property="role" scheme="marc:relators">aut</meta>
-    <dc:contributor id="translator">如月風鈴</dc:contributor>
+    <dc:contributor id="translator">非官方中文譯本</dc:contributor>
     <meta refines="#translator" property="role" scheme="marc:relators">trl</meta>
     <dc:language>zh-CN</dc:language>
     <dc:publisher>夜読文庫</dc:publisher>

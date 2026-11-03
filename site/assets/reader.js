@@ -129,7 +129,7 @@ async function render() {
     </nav>
     <div class="footnote">
       ${book.title}${book.subtitle ? `　${book.subtitle}` : ''}<br />
-      ${book.author ? `${book.author} 著　` : ''}如月風鈴 譯<br />
+      ${book.author ? `${book.author} 著　` : ''}非官方中譯<br />
       ${book.epub ? `<a class="foot-link" href="${book.epub}" download>下載 EPUB${book.epubSize ? `（${(book.epubSize / 1024).toFixed(0)} KB）` : ''}</a> · ` : ''}
       <a class="foot-link" href="assets/fonts/OFL.txt" target="_blank" rel="noopener">字體 · 霞鹜文楷 LXGW WenKai（OFL 1.1）</a>
     </div>
@@ -239,7 +239,7 @@ function buildToc() {
   const book = state.book;
   const prog = load(KEY_PROGRESS, {})[slug];
   const max = prog?.max ?? -1;
-  $('#dTitle').textContent = book.title;
+  $('#dTitle').innerHTML = `<a href="book.html?b=${encodeURIComponent(slug)}">${book.title}</a>`;
   $('#dSub').innerHTML = `<span class="sl">${book.subtitle || ''}</span><span class="sm">${book.stats.chapters} 話 · ${(book.stats.words / 10000).toFixed(1)} 萬字</span>`;
   const box = $('#dList');
   box.innerHTML = '';
@@ -318,6 +318,9 @@ async function boot() {
   const list = state.book.chapters;
   state.ch = Math.min(Math.max(0, state.ch), list.length - 1);
   if (p && p.ch === state.ch && p.pct > 0.01) state.restorePct = p.pct;
+
+  const back = document.querySelector('.rhead__back');
+  if (back) back.href = `book.html?b=${encodeURIComponent(slug)}`;
 
   buildToc();
   bind();
