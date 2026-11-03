@@ -1,5 +1,7 @@
 # 夜読文庫
 
+→ https://anthealaffy.github.io/yodoku-bunko/
+
 私人藏書的閱讀站。純靜態、零依賴、直接丟上 GitHub Pages。
 
 ```
